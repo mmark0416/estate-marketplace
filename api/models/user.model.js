@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
+//Save password with bcryptjs
 userSchema.pre('save', async function() {
   const bcryptSalt = await bryptjs.genSalt(10)
   this.password = await bryptjs.hash(this.password, bcryptSalt)
