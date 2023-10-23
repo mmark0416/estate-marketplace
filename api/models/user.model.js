@@ -37,7 +37,6 @@ userSchema.methods.comparePassword = async function(enteredPassword) {
 //Create JWT
 userSchema.methods.createJWT = async function() {
   const token = jwt.sign({id: this._id}, process.env.JWT_SECRET)
-  console.log(token);
   return token
 }
 

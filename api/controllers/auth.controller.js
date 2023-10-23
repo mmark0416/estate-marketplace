@@ -17,7 +17,7 @@ export const signIn = async (req, res) => {
   if (!validUser) throw new PageNotFoundError("User not found");
 
   //Check for password
-  const validPassword = validUser.comparePassword(password);
+  const validPassword = await validUser.comparePassword(password);
   if (!validPassword) throw new UnauthorizedError("Wrong credentials!");
 
   const token = await validUser.createJWT();
