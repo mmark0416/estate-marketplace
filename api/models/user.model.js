@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bryptjs from 'bcryptjs'
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,6 +20,12 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+
+userSchema.pre('save', async function() {
+  const bcryptSalt = await bryptjs.genSalt(10)
+  this.password = await bryptjs.hash(this.password, bcryptSalt)
+})
 
 const User = mongoose.model("User", userSchema);
 

@@ -5,7 +5,16 @@ import express from "express";
 //db
 import connectDB from "./db/connectDB.js";
 
+//Routes
+import userRouter from './routes/user.route.js'
+import authRouter from './routes/auth.route.js'
+
 const app = express();
+
+app.use(express.json())
+
+app.use('/api/user', userRouter)
+app.use('/api/auth', authRouter)
 
 const port = process.env.PORT || 3000;
 
