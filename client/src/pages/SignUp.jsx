@@ -55,7 +55,7 @@ export default function SingUp() {
         <input
           className="border p-3 rounded-lg"
           id="email"
-          type="text"
+          type="email"
           placeholder="email"
           onChange={handleChange}
         />
