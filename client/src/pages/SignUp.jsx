@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAth from "../components/OAth";
 
 export default function SingUp() {
   const [formData, setformData] = useState({});
@@ -68,6 +69,7 @@ export default function SingUp() {
         <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-xl uppercase hover:opacity-95 disabled:opacity-80">
           {loading? "loading..." : "Sign up"}
         </button>
+        <OAth />
       </form>
       <div className="flex justify-center gap-2 mt-5">
         <p>Have an account?</p>

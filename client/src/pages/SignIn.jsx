@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice.js";
+import OAth from "../components/OAth.jsx";
 
 export default function SingIn() {
   const [formData, setformData] = useState({});
@@ -68,6 +69,7 @@ export default function SingIn() {
         >
           {loading ? "loading..." : "Sign in"}
         </button>
+        <OAth />
       </form>
       <div className="flex justify-center gap-2 mt-5">
         <p>Dont have an account?</p>

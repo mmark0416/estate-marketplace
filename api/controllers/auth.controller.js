@@ -27,3 +27,34 @@ export const signIn = async (req, res) => {
     .status(200)
     .json(rest);
 };
+
+export const google = async (req, res) => {
+  const user = await User.findOne({email: req.body.email})
+  if (user) {
+    const token = await user.createJWT()
+    const {password: pass, ...rest} = user._doc
+    res
+      .cookie('acces_token', token, {httpOnly: true})
+      .status(200)
+      .json(rest)
+  }else {
+    const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+
+    const newUser = {
+      username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
+      email: req.body.email,
+      password: generatedPassword,
+      avatar: req.body.photo
+    }
+    const userDoc = await User.create(newUser)
+
+    const token = userDoc.createJWT()
+    const {password: pass, ...rest} = userDoc._doc
+    console.log(rest);
+
+    res
+      .cookie('acces_token', token, {httpOnly: true})
+      .status(200)
+      .json(rest)
+  }
+}
