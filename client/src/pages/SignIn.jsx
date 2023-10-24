@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice.js";
 
 export default function SingIn() {
   const [formData, setformData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const {loading, error} = useSelector(state => state.user)
+  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setformData({
@@ -16,8 +23,8 @@ export default function SingIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -27,16 +34,13 @@ export default function SingIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null)
-      navigate('/')
+      dispatch(signInSuccess(data))
+      navigate("/");
     } catch (error) {
-        setLoading(false);
-        setError(error.message);
+      dispatch(signInFailure(error.message))
     }
   };
 
@@ -58,8 +62,11 @@ export default function SingIn() {
           placeholder="password"
           onChange={handleChange}
         />
-        <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-xl uppercase hover:opacity-95 disabled:opacity-80">
-          {loading? "loading..." : "Sign in"}
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-xl uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "loading..." : "Sign in"}
         </button>
       </form>
       <div className="flex justify-center gap-2 mt-5">
