@@ -50,7 +50,6 @@ export const google = async (req, res) => {
 
     const token = userDoc.createJWT()
     const {password: pass, ...rest} = userDoc._doc
-    console.log(rest);
 
     res
       .cookie('acces_token', token, {httpOnly: true})

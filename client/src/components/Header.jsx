@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-export default function Header() {
-  const [isOpenActive, setIsOpenActive] = useState(false);
+import { useSelector } from "react-redux";
 
+export default function Header() {
+  const { currentUser } = useSelector((state) => state.user);
+  const [isOpenActive, setIsOpenActive] = useState(false);
   const toggleClass = () => {
     setIsOpenActive((prev) => !prev);
   };
@@ -32,8 +34,14 @@ export default function Header() {
           <Link to={"/about"}>
             <li className="text-slate-700 hover:underline">About</li>
           </Link>
-          <Link to={"/sign-in"}>
-            <li className="text-slate-700 hover:underline">Sign in</li>
+          <Link to={"/profile"}>
+            {currentUser ? (
+              <div>
+                <img className="rounded-full h-7 w-7 object-cover" src={currentUser.avatar} referrerPolicy="no-referrer" alt="profile" />
+              </div>
+            ) : (
+              <li className="text-slate-700 hover:underline">Sign in</li>
+            )}
           </Link>
         </ul>
         <button
@@ -69,9 +77,15 @@ export default function Header() {
               </li>
             </Link>
             <Link to={"/sign-in"}>
-              <li onClick={toggleClass} className="px-6 py-2">
-                Sign in
-              </li>
+              {currentUser ? (
+                <li onClick={toggleClass} className="px-6 py-2">
+                  Profile
+                </li>
+              ) : (
+                <li onClick={toggleClass} className="px-6 py-2">
+                  Sign in
+                </li>
+              )}
             </Link>
           </ul>
         </div>
