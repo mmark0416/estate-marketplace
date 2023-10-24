@@ -48,7 +48,7 @@ export const google = async (req, res) => {
     }
     const userDoc = await User.create(newUser)
 
-    const token = userDoc.createJWT()
+    const token = await userDoc.createJWT()
     const {password: pass, ...rest} = userDoc._doc
 
     res
