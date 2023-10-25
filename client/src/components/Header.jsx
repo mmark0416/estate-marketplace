@@ -55,7 +55,7 @@ export default function Header() {
           <span className="hamburger-bottom"></span>
         </button>
         <div
-          className={`absolute items-center right-6 left-6 top-20 text-center opacity-70  sm:hidden bg-slate-200 ${
+          className={`absolute items-center right-6 left-6 top-20 text-center sm:hidden bg-slate-200 ${
             isOpenActive ? "" : "hidden"
           }`}
         >
