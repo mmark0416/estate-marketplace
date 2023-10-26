@@ -1,14 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const [isOpenActive, setIsOpenActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const toggleClass = () => {
     setIsOpenActive((prev) => !prev);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    console.log(urlParams.toString());
+    const searchQuery = urlParams.toString();
+    navigate(`/search/?${searchQuery}`);
+  }
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   return (
     <header>
@@ -19,13 +39,17 @@ export default function Header() {
             <span className="text-slate-500">Estate</span>
           </h1>
         </Link>
-        <form className="flex  items-center bg-slate-100 p-3 rounded-lg">
+        <form onSubmit={handleSubmit} className="flex  items-center bg-slate-100 p-3 rounded-lg">
           <input
             className="bg-transparent focus:outline-none w-24 sm:w-64"
             type="text"
             placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <FaSearch className="text-slate-600" />
+          <button>
+            <FaSearch className="text-slate-600" />
+          </button>
         </form>
         <ul className="hidden space-x-6 sm:flex">
           <Link to={"/"}>
@@ -37,7 +61,12 @@ export default function Header() {
           <Link to={"/profile"}>
             {currentUser ? (
               <div>
-                <img className="rounded-full h-7 w-7 object-cover" src={currentUser.avatar} referrerPolicy="no-referrer" alt="profile" />
+                <img
+                  className="rounded-full h-7 w-7 object-cover"
+                  src={currentUser.avatar}
+                  referrerPolicy="no-referrer"
+                  alt="profile"
+                />
               </div>
             ) : (
               <li className="text-slate-700 hover:underline">Sign in</li>
