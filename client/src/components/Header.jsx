@@ -76,7 +76,7 @@ export default function Header() {
                 About
               </li>
             </Link>
-            <Link to={"/sign-in"}>
+            <Link to={"/profile"}>
               {currentUser ? (
                 <li onClick={toggleClass} className="px-6 py-2">
                   Profile
