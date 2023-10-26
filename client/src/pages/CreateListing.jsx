@@ -14,7 +14,7 @@ export default function CreateListing() {
   const navigate = useNavigate()
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    imagesUrls: [],
+    imageURLs: [],
     name: "",
     description: "",
     address: "",
@@ -33,7 +33,7 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
 
   const hadleImageSubmit = () => {
-    if (files.length > 0 && files.length + formData.imagesUrls.length < 7) {
+    if (files.length > 0 && files.length + formData.imageURLs.length < 7) {
       setUploading(true);
       setimageUploadError(false);
       const promises = [];
@@ -45,7 +45,7 @@ export default function CreateListing() {
         .then((urls) => {
           setFormData({
             ...formData,
-            imagesUrls: formData.imagesUrls.concat(urls),
+            imageURLs: formData.imageURLs.concat(urls),
           });
           setimageUploadError(false);
           setUploading(false);
@@ -71,7 +71,6 @@ export default function CreateListing() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(progress);
         },
         (error) => {
           reject(error);
@@ -88,7 +87,7 @@ export default function CreateListing() {
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
-      imagesUrls: formData.imagesUrls.filter((_, i) => i !== index),
+      imageURLs: formData.imageURLs.filter((_, i) => i !== index),
     });
   };
 
@@ -124,7 +123,7 @@ export default function CreateListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(formData.imagesUrls.length < 1) return setError('You must upload at least one image')
+      if(formData.imageURLs.length < 1) return setError('You must upload at least one image')
       if(+formData.regularPrice < +formData.discountPrice) return setError('Discount price must be lower than regular price')
       setLoading(true);
       setError(false);
@@ -328,8 +327,8 @@ export default function CreateListing() {
           <p className="text-red-700 text-sm text-center">
             {imageUploadError && imageUploadError}
           </p>
-          {formData.imagesUrls.length > 0 &&
-            formData.imagesUrls.map((url, index) => (
+          {formData.imageURLs.length > 0 &&
+            formData.imageURLs.map((url, index) => (
               <div
                 key={index}
                 className="relative w-40 rounded-lg overflow-hidden"

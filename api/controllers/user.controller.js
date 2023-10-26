@@ -1,5 +1,6 @@
 import UnauthorizedError from "../errors/Unauthorized.js";
 import User from "../models/user.model.js";
+import Listing from "../models/listing.model.js";
 
 export const test = (req, res) => {
   res.json({ msg: "Working" });
@@ -33,4 +34,11 @@ export const deleteUser = async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
 
   res.clearCookie('access_token').status(200).json("User has been deleted");
+};
+
+export const getListing = async (req, res) => {
+  if (req.user.id !== req.params.id)
+    throw new UnauthorizedError("You can only view your own listings!");
+  const listing = await Listing.find({ userRef: req.user.id });
+  res.status(200).json(listing);
 };

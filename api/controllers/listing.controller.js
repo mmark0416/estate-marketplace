@@ -1,6 +1,9 @@
-import Listing from "../models/listing.model.js"
+import UnauthorizedError from "../errors/Unauthorized.js";
+import Listing from "../models/listing.model.js";
 
 export const createListing = async (req, res) => {
-  const listing = await Listing.create(req.body)
-  return res.status(201).json(listing)
-}
+  const listing = await Listing.create(req.body);
+  return res.status(201).json(listing);
+};
+
+
