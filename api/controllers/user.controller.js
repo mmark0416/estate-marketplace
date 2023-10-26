@@ -42,3 +42,13 @@ export const getListing = async (req, res) => {
   const listing = await Listing.find({ userRef: req.user.id });
   res.status(200).json(listing);
 };
+
+export const getUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if(!user) throw new UnauthorizedError("User not found");
+
+  const { password, ...rest } = user._doc;
+
+  res.status(200).json(rest);
+}
