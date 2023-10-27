@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 export default function Search() {
   const navigate = useNavigate();
   const [sidebarData, setSidebarData] = useState({
@@ -45,14 +46,11 @@ export default function Search() {
       }));
     }
 
-    console.log(listings);
-
     const fetchListings = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
-      console.log(res);
       setListings(data);
       setLoading(false);
     }
@@ -224,10 +222,23 @@ export default function Search() {
           </button>
         </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
           Listing result:
         </h1>
+        <div className="flex flex-wrap gap-4 p-7">
+          {!loading && listings.length === 0 && (
+            <div className="text-3xl text-slate-700 text-center w-full">
+              No listings found!
+            </div>
+          )}
+          {loading && (
+            <div className="text-3xl text-slate-700 text-center w-full">Loading...</div>
+          )}
+          {!loading && listings.length > 0 && listings.map((listing) => (
+            <ListingItem key={listing._id} listing={listing} />
+          ))}
+        </div>
       </div>
     </div>
   );
