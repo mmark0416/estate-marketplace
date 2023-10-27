@@ -33,7 +33,7 @@ export default function Header() {
       <div className="fixed w-full bg-slate-200 shadow-md">
         <div className="flex justify-between items-center max-w-6xl p-3 h-16 mx-auto">
           <Link to={"/"}>
-            <h1 className="flex flex-wrap font-bold text-sm sm:text-xl">
+            <h1 className="flex flex-wrap font-bold gap-1 text-sm sm:text-xl">
               <span className="text-slate-500">MJM</span>
               <span className="text-slate-500">Estate</span>
             </h1>
