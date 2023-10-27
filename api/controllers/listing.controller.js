@@ -40,7 +40,7 @@ export const getListing = async (req, res) => {
 };
 
 export const getListings = async (req, res) => {
-  const limit = parseInt(req.query.limit) || 10 
+  const limit = parseInt(req.query.limit) || 9
   const startIndex = parseInt(req.query.startIndex) || 0
   let offer = req.query.offer
 
